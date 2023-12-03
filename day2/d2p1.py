@@ -4,8 +4,33 @@
 #Game 1: 20 green, 3 red, 2 blue; 9 red, 16 blue, 18 green; 6 blue, 19 red, 10 green
 import re
 
-def is_possible(game_dict):
+def part_two(game_dict):
+    total = 0
     
+    for game in game_dict:
+        print (f"\nGame {game}")
+        print (f"{game_dict[game]}")
+        green_max = 0
+        red_max = 0
+        blue_max = 0
+
+        for hand in game_dict[game]:
+            green = game_dict[game][hand].pop("green", "0")
+            red = game_dict[game][hand].pop("red", "0")
+            blue = game_dict[game][hand].pop("blue", "0")
+            
+            if int(green) > green_max:
+                green_max = int(green)
+            if int(red) > red_max:
+                red_max = int(red)
+            if int(blue) > blue_max:
+                blue_max = int(blue)
+        print (f"Green: {green_max}\nRed: {red_max}\nBlue: {blue_max}\n")
+        total = total + (green_max * red_max * blue_max)
+    
+    print ("Part 2 Powers total: ", total)
+
+def is_possible(game_dict): 
     total = 0
     
     for game in game_dict:
@@ -33,8 +58,7 @@ def is_possible(game_dict):
             #print ("WINNING GAME\n")
             total += int(game)
             # print ( int(game_dict[game][hand]['green']) )
-    
-    print (f"Total: {total}")
+    print (f"Part 1 total: {total}")
 
 def main ():
     file1 = open('input.txt', 'r')
@@ -70,9 +94,10 @@ def main ():
                 game_dict[game_num]["hand_"+str(count)][color]=num
                 #print (f"Color: {color} Number: {num}")
             count +=1           
-                
-
-    possible = is_possible(game_dict)
+        
+    # Only run 1 or the other at a time
+    # is_possible(game_dict)
+    part_two(game_dict)
 
         
 if __name__ == "__main__":
